@@ -1,0 +1,69 @@
+<div fxLayout="column">
+  <div fxLayout="row">
+    <div>
+      <button mat-flat-button color="primary" (click)="addFilter()">
+        Filter hinzufügen
+      </button>
+    </div>
+  </div>
+  <form [formGroup]="form" fxLayout="column">
+    <div
+      *ngFor="let control of getControlNames()"
+      formGroupName="{{ control }}"
+      fxLayout="row"
+    >
+      <mat-form-field class="padding-8px">
+        <mat-select #select formControlName="column">
+          <mat-option
+            *ngFor="let option of getObjectKeys(data)"
+            value="{{ option }}"
+            >{{ option | translateColumn}}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="padding-8px">
+        <mat-select formControlName="operator">
+          <mat-option
+            *ngFor="
+              let operator of data[select.value] == 'number'
+                ? numberOperator
+                : stringOperator
+            "
+            value="{{ operator }}"
+          >
+            {{ operator }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="padding-8px">
+        <input matInput formControlName="filter" />
+      </mat-form-field>
+
+      <div class="padding-8px">
+        <button mat-icon-button (click)="removeFilter(control)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div fxLayout="row" fxLayoutAlign="end end ">
+    <div class="padding-4px">
+      <button mat-stroked-button color="primary" (click)="cancel()">
+        Abbrechen
+      </button>
+    </div>
+    <div class="padding-4px">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submit()"
+        [disabled]="(form.statusChanges | async) != 'VALID'"
+      >
+        Bestätigen
+      </button>
+    </div>
+  </div>
+</div>

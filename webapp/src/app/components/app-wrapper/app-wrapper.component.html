@@ -1,0 +1,112 @@
+<div fxLayout="column" class="full-size">
+  <!--header-->
+  <mat-toolbar
+    [color]="'accent'"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    class="mat-elevation-z8"
+    [style.padding-right]="'0px'"
+    [style.z-index]="2"
+  >
+    <!--left-->
+    <div fxLayout="row">
+      <div fxLayoutAlign="center center" class="padding-right-32px">
+        <app-logo [height]="40" [color]="'primary'"></app-logo>
+      </div>
+      <ng-container *ngFor="let route of getRoutes()">
+        <div
+          *ngIf="isAllowed(route) && route.data.header == true"
+          [ngClass]="
+            isActive(route.path)
+              ? ['selected-button', 'primary-border-2px']
+              : ''">
+          <button mat-button [routerLink]="'/' + route.path">
+            <span class="bold primary">
+              {{ route.data.name }}
+            </span>
+          </button>
+        </div>
+      </ng-container>
+      <!--my Profile-->
+      <div
+        *ngIf="isLoggedIn$|async"
+        [ngClass]="
+            isActive('profile/-1')
+              ? ['selected-button', 'primary-border-2px']
+              : ''">
+        <button mat-button [routerLink]="'/profile/-1'">
+            <span class="bold primary">
+              Mein Profil
+            </span>
+        </button>
+      </div>
+    </div>
+    <!--right-->
+    <div
+      fxLayout="row"
+      class="user-indicator background primary cursor-pointer full-height"
+      fxLayoutAlign="center center"
+      mat-ripple>
+      <div class="full-size" *ngIf="(loggedInCompanyName$|async) as loggedInCompanyName">
+        <app-company-icon [matMenuTriggerFor]="menu" [companyName]="loggedInCompanyName">
+        </app-company-icon>
+
+      </div>
+
+      <mat-menu #menu="matMenu" yPosition="below" xPosition="after">
+        <button mat-menu-item [routerLink]="'/profile/-1'">
+          <mat-icon>account_circle</mat-icon>
+          <span>Profil</span>
+        </button>
+        <button mat-menu-item [routerLink]="'/company-edit-data'">
+          <mat-icon>edit</mat-icon>
+          <span>Stammdaten bearbeiten</span>
+        </button>
+        <button mat-menu-item [routerLink]="'/company-edit-report-overview'">
+          <mat-icon>edit</mat-icon>
+          <span>Umweltkennzahlen bearbeiten</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+
+      <div
+        *ngIf="!(isLoggedIn$ | async)"
+        (click)="login()"
+        class="full-size"
+        fxLayoutAlign="center center"
+      >
+        <mat-icon class="full-size large">login</mat-icon>
+      </div>
+      <!-- <button mat-button *ngIf="isLoggedIn$ | async" (click)="logout()">
+      logout
+    </button> -->
+    </div>
+  </mat-toolbar>
+  <!--content-->
+  <div fxFlex class="background-image scrollable-table mat-elevation-z4" [style.z-index]="1">
+    <div
+      fxFlex
+      class="padding-8px padding-top-16px scrollable-table"
+    >
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
+  <!--footer-->
+  <mat-toolbar fxLayoutAlign="center center">
+    <!--left-->
+    <div fxFlex fxLayoutAlign="left center"></div>
+    <!--center-->
+    <div>
+      <button mat-button [routerLink]="'/contact'">Kontakt</button>
+      <button mat-button [routerLink]="'/licence'">Lizenz</button>
+    </div>
+    <!--right-->
+    <div fxFlex fxLayoutAlign="end center">
+      <button mat-button [routerLink]="'/'">Copyright ©2021 NHS</button>
+    </div>
+  </mat-toolbar>
+</div>

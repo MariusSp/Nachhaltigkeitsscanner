@@ -1,0 +1,36 @@
+<div class="full-size" fxLayout="column" fxLayoutAlign="center center">
+  <mat-card class="margin-top-8px center mat-elevation-z3 half-width three-quarter-height" fxLayout="column">
+
+      <form [formGroup]="form" #createForm (ngSubmit)="onSubmitAdd()" fxLayout="row" fxLayoutAlign="space-around center">
+        <div fxLayoutAlign="center center"><h3 fxLayoutAlign="center center margin-8px">Jahresbericht hinzufügen:</h3></div>
+        <mat-form-field class=" margin-8px" >
+          <mat-label>Jahr</mat-label>
+          <input matInput type="number" formControlName="year">
+
+        </mat-form-field>
+        <div fxLayoutAlign="center center">
+          <h3 fxLayoutAlign="start center margin-8px">
+            <button mat-raised-button [color]="'primary'" type="submit" class="margin-4px">
+              <mat-icon class="margin-right-8px">add</mat-icon>
+              Hinzufügen
+            </button>
+          </h3>
+        </div>
+      </form>
+
+    <h3 fxLayoutAlign="center center">Wählen Sie ein Jahr zur Bearbeitung aus:</h3>
+    <cdk-virtual-scroll-viewport itemSize="20" fxFlex class="full-width" scrollable [style.overflow-y]="'scroll'">
+      <mat-selection-list #companyList [multiple]="false" *ngIf="(reports$ | async) as reports ">
+        <mat-divider></mat-divider>
+        <mat-list-option *cdkVirtualFor="let report of sortedReports(reports)"
+                         [value]="report.year"
+                         [routerLink]="'/company-edit-report/'+report.year">
+          <div matLine fxLayoutAlign="center center">
+            <span style="float:left">{{report.year}}</span>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-list-option>
+      </mat-selection-list>
+    </cdk-virtual-scroll-viewport>
+  </mat-card>
+</div>

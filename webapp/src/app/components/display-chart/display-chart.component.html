@@ -1,0 +1,23 @@
+<mat-card class="margin-bottom-16px center mat-elevation-z3 half-width">
+  <div fxLayout="column" fxLayoutAlign="center center" class="background height-400px">
+    <ngx-charts-line-chart
+      [results]="data"
+      [legend]="true"
+      [xAxisLabel]="'Jahr'"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="false"
+      [xAxis]="true"
+      [yAxis]="true"
+      [roundDomains]="true"
+      [tooltipDisabled]="true"
+      [showGridLines]="true">
+      <!--    [legendPosition]="below"-->
+      <!--    [legendTitle]="'Kennzahlen Historie'"-->
+      <!--      [view]="[1000,400]"-->
+    </ngx-charts-line-chart>
+    <div class="padding-4px center full-width" fxFlex fxLayout="column">
+      <!-- todo show something when no data is here-->
+      <div fxFlex></div>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,174 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./fonts.scss";
+@import "./material-icons.scss";
+// @import "./theme.scss";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto-Bold";
+}
+
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+.full-size {
+  height: 100%;
+  width: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.three-quarter-height {
+  height: 75%;
+}
+
+.half-height {
+  height: 50%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.three-quarter-width {
+  width: 75%;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.text-width {
+  @media (min-width: 1100px) {
+    width: 1000px;
+  }
+  width: 90%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.user-indicator {
+  width: 100px;
+  font-size: 40px;
+  font-weight: bold;
+
+  .user-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    padding: 5px;
+  }
+
+  mat-icon {
+    &.large {
+      font-size: inherit;
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+
+$grid-columns: 10;
+$actual: 1;
+@for $i from 1 through $grid-columns {
+  $actual: $actual * 2;
+  .padding-#{$actual}px {
+    padding: $actual + 0px;
+  }
+  .padding-left-#{$actual}px {
+    padding-left: $actual + 0px;
+  }
+  .padding-right-#{$actual}px {
+    padding-right: $actual + 0px;
+  }
+  .padding-top-#{$actual}px {
+    padding-top: $actual + 0px;
+  }
+  .padding-bottom-#{$actual}px {
+    padding-bottom: $actual + 0px;
+  }
+  .padding-horizontal-#{$actual}px {
+    padding-left: $actual + 0px;
+    padding-right: $actual + 0px;
+  }
+  .padding-vertical-#{$actual}px {
+    padding-bottom: $actual + 0px;
+    padding-top: $actual + 0px;
+  }
+}
+
+$grid-columns: 10;
+$actual: 1;
+@for $i from 1 through $grid-columns {
+  $actual: $actual * 2;
+  .margin-#{$actual}px {
+    margin: $actual + 0px;
+  }
+  .margin-left-#{$actual}px {
+    margin-left: $actual + 0px;
+  }
+  .margin-right-#{$actual}px {
+    margin-right: $actual + 0px;
+  }
+  .margin-top-#{$actual}px {
+    margin-top: $actual + 0px;
+  }
+  .margin-bottom-#{$actual}px {
+    margin-bottom: $actual + 0px;
+  }
+  .margin-horizontal-#{$actual}px {
+    margin-left: $actual + 0px;
+    margin-right: $actual + 0px;
+  }
+  .margin-vertical-#{$actual}px {
+    margin-bottom: $actual + 0px;
+    margin-top: $actual + 0px;
+  }
+}
+
+.background-image {
+  //width: 200px;
+  //height: 200px;
+  display: block;
+  position: relative;
+}
+
+.background-image::after {
+  content: "";
+  background: url("/assets/images/StockSnap_G8M5MG3NLB_16_91080p.jpg") no-repeat center center scroll;
+  background-size: cover;
+  opacity: 0.7;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+// needed for flex Layout for mat tab group body
+.mat-tab-body-wrapper {
+  flex-grow: 1;
+}

@@ -1,0 +1,69 @@
+<div *ngIf="(report$|async) as report">
+  <mat-card class="margin-top-8px center mat-elevation-z3 three-quarter-width">
+    <mat-card-title>
+      <div fxFlex="" fxLayoutAlign="center center">
+        <div class="flex-item" fxFlexOffset="20" fxFlex="80">Bearbeiten der
+          Jahreskennzahlen {{report.year}}</div>
+        <div class="flex-item" fxFlex="20">
+          <button mat-raised-button color="red" class="margin-4px"  (click)="onSubmitDelete()">
+            <mat-icon class="margin-right-8px">delete</mat-icon>
+            Löschen
+          </button>
+        </div>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="inputForm" (ngSubmit)="onSubmitEdit()">
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Mitarbeiter</mat-label>
+          <input matInput formControlName="employees" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Umsatz in Mio. €</mat-label>
+          <input matInput formControlName="revenue" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Energieverbrauch in MWh</mat-label>
+          <input matInput formControlName="energyConsumption" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Gasverbrauch in MWh</mat-label>
+          <input matInput formControlName="gasConsumption" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Wasserverbrauch in m3</mat-label>
+          <input matInput formControlName="waterConsumption" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Stromverbrauch in MWh</mat-label>
+          <input matInput formControlName="electricityConsumption" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Gefährlicher Abfall in t</mat-label>
+          <input matInput formControlName="dangerousWaste" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>normaler Abfall in t</mat-label>
+          <input matInput formControlName="normalWaste" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>CO2-Emissionen in</mat-label>
+          <input matInput formControlName="co2Emissions" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Ressourceninput in t</mat-label>
+          <input matInput formControlName="resourcesInput" type="number">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Ressourcenoutput in t</mat-label>
+          <input matInput formControlName="resourcesOutput" type="number">
+        </mat-form-field>
+        <br>
+        <button mat-raised-button [color]="'primary'" type="submit" class="margin-4px">
+          <mat-icon class="margin-right-8px">save</mat-icon>
+          Änderungen speichern
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

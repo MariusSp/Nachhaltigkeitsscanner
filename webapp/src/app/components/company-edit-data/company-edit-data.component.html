@@ -1,0 +1,88 @@
+<div *ngIf="(company$|async) as company">
+  <mat-card class="margin-top-8px center mat-elevation-z3 three-quarter-width">
+    <mat-card-title>Bearbeiten der Stammdaten</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="inputForm" class="example-form" (ngSubmit)="onSubmitEdit()">
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Firmenname</mat-label>
+          <input matInput formControlName="name" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="dataFormControl.hasError('required')">Firmenname ist erforderlich</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Beschreibung der Firma</mat-label>
+          <textarea rows="3" matInput formControlName="info">{{company.info}}</textarea>
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Anschrift</mat-label>
+          <textarea rows="3" matInput formControlName="address">{{company.address}}</textarea>
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Geschäftsführer</mat-label>
+          <input matInput formControlName="ceo" name="ceo">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Branchen</mat-label>
+          <mat-hint>Branchen mit Komma getrennt</mat-hint>
+          <input matInput formControlName="sectors" name="sectors">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Firmensitz</mat-label>
+          <input matInput formControlName="headquarters" name="headquarters">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Telefonnummer</mat-label>
+          <input matInput formControlName="phonenumber" name="phonenumber">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>E-Mail</mat-label>
+          <input matInput formControlName="contact" name="contact">
+        </mat-form-field>
+        <mat-form-field class="half-width margin-8px">
+          <mat-label>Homepage</mat-label>
+          <input matInput formControlName="homepage" name="homepage">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="fifth-width margin-8px">
+          <mat-label>EMAS III</mat-label>
+          <mat-select formControlName="emas3">
+            <mat-option [value]="true">Ja</mat-option>
+            <mat-option [value]="false">Nein</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="fifth-width margin-8px">
+          <mat-label>ISO 14001</mat-label>
+          <mat-select formControlName="iso14001" name="iso14001">
+            <mat-option [value]="true">Ja</mat-option>
+            <mat-option [value]="false">Nein</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="fifth-width margin-8px">
+          <mat-label>ISO 45001</mat-label>
+          <mat-select formControlName="iso45001">
+            <mat-option [value]="true">Ja</mat-option>
+            <mat-option [value]="false">Nein</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="fifth-width margin-8px">
+          <mat-label>ISO 50001</mat-label>
+          <mat-select formControlName="iso50001">
+            <mat-option [value]="true">Ja</mat-option>
+            <mat-option [value]="false">Nein</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="fifth-width margin-8px">
+          <mat-label>ISO 9001</mat-label>
+          <mat-select formControlName="iso9001">
+            <mat-option [value]="true">Ja</mat-option>
+            <mat-option [value]="false">Nein</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button [color]="'primary'" type="submit" class="margin-4px">
+          <mat-icon class="margin-right-8px">save</mat-icon>
+          Änderungen speichern
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

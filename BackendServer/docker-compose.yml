@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  server:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: ""
+    container_name: server
+    depends_on:
+      - db
+      - keycloak
+    ports:
+      - 9091:4576
+      - 9099:8000
+    environment:
+      - DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+      - DATASOURCE_USERNAME=compose-postgres
+      - DATASOURCE_PASSWORD=compose-postgres
+      - DATASOURCE_SCHEMA_GENERATION=drop-and-create
+      - JPA_HIBERNATE_DDL_AUTO=update
+      - KEYCLOAK_URL=keycloak:8080/auth
+      - KEYCLOAK_REALM=nachhaltigkeitsscanner
+      - KEYCLOAK_CLIENT=nachhaltigkeitsscanner
+    networks:
+      - backend-net
+
+  db:
+    image: 'postgres:13.2-alpine'
+    container_name: db
+    volumes:
+      - ./src/main/resources/init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+    ports:
+      - 9092:5432
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+    networks:
+      - backend-net
+
+  keycloak:
+    image: 'jboss/keycloak:latest'
+    build:
+      context: "./keycloak/"
+    container_name: keycloak
+    ports:
+      - 9093:8080
+    depends_on:
+      - db
+    environment:
+      - KEYCLOAK_USER=keycloak-admin
+      - KEYCLOAK_PASSWORD=keycloak-admin
+      - DB_VENDOR=postgres
+      - DB_USER=compose-postgres
+      - DB_PASSWORD=compose-postgres
+      - DB_ADDR=db
+    networks:
+      - backend-net
+
+networks:
+  backend-net:
+    driver: bridge

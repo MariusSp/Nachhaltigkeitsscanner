@@ -1,0 +1,7 @@
+{
+  "/api/*": {
+    "target": "http://server:4576",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

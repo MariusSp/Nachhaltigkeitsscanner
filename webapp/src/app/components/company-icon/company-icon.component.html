@@ -1,0 +1,5 @@
+<div class="full-size" fxLayoutAlign="center center" *ngIf="firstLetter$ | async as firstLetter">
+        <span fxLayoutAlign="center center" class="primary-border-2px user-icon"
+              [style]="size ? {height: size+'px',width: size+'px', fontSize: (size*0.9) +'px' }:{}"
+        >{{ firstLetter }}</span>
+</div>

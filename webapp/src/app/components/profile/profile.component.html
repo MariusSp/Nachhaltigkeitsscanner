@@ -1,0 +1,174 @@
+<!-- claim company if user has no -->
+<div *ngIf="!(company$|async) as company" fxLayoutAlign="center center" clasS="full-size">
+  <mat-card class="margin-top-8px center mat-elevation-z3 three-quarter-width three-quarter-height" fxLayout="column">
+    <mat-tab-group fxFlex [selectedIndex]="0">
+      <mat-tab [label]="'Wählen sie ein Unternehmen aus'" fxFlex fxLayout="column">
+        <div class="full-height" fxLayout="column">
+          <form [formGroup]="filter">
+            <div fxLayoutAlign="start center" class="padding-top-8px">
+              <mat-form-field>
+                <mat-label>Suchen</mat-label>
+                <input matInput formControlName="companyName">
+              </mat-form-field>
+            </div>
+          </form>
+          <cdk-virtual-scroll-viewport itemSize="20" fxFlex class="full-width" scrollable [style.overflow-y]="'scroll'">
+            <mat-selection-list #companyList [multiple]="false">
+              <mat-divider></mat-divider>
+              <mat-list-option *cdkVirtualFor="let company of availableCompanies$|async" [value]="company">
+                {{company.name}}
+                <mat-divider></mat-divider>
+              </mat-list-option>
+            </mat-selection-list>
+          </cdk-virtual-scroll-viewport>
+
+          <div fxLayoutAlign="end center" class="padding-top-16px">
+            <button mat-flat-button color="primary"
+                    (click)="assignCompany(companyList.selectedOptions.selected[0]?.value)">
+              Bestätigen
+            </button>
+          </div>
+        </div>
+
+
+        <!-- <mat-form-field>
+         <mat-select>
+           <mat-option *ngFor="let company of availableCompanies" value="{{company}}">{{company.name}}</mat-option>
+         </mat-select>
+       </mat-form-field>-->
+      </mat-tab>
+      <mat-tab [label]="'Erstellen sie ein Unternehmen'">
+        <div class="padding-32px">
+          <div fxFlex="">
+            <mat-form-field>
+              <mat-label>Name des Unternehmens</mat-label>
+              <input matInput #companyName/>
+            </mat-form-field>
+          </div>
+          <div fxLayoutAlign="end center" class="padding-top-16px">
+            <button mat-flat-button color="primary"
+                    (click)="createAndAssignCompany(companyName.value)">
+              Bestätigen
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
+<!-- profile page -->
+<div *ngIf="(company$|async) as company">
+  <mat-card class="margin-top-8px center mat-elevation-z3 three-quarter-width">
+    <mat-card-header>
+      <div mat-card-avatar [style]="{height:'60px', width:'60px'}">
+        <div fxLayout="row" class="user-indicator primary" fxLayoutAlign="left center">
+          <app-company-icon [companyName]="company.name"></app-company-icon>
+        </div>
+      </div>
+      <mat-card-title fxLayoutAlign="center center">{{company.name}}
+        <mat-icon *ngIf="company.userId" class="padding-left-8px"
+                  #tooltip="matTooltip"
+                  matTooltip="Dieses Profil wird vom Unternehmen selbst verwaltet"
+                  matTooltipClass="tooltip-lower"
+                  [matTooltipPosition]="'above'">account_circle
+        </mat-icon>
+      </mat-card-title>
+      <!-- TODO check what to display here-->
+      <mat-card-subtitle>{{company.contact}}</mat-card-subtitle>
+      <div *ngIf="isCorrectLoggedIn$|async" class="flex-item" fxFlex fxLayoutAlign="end start">
+        <div>
+          <button mat-raised-button [color]="'primary'" [routerLink]="'/company-edit-data'">
+            <mat-icon class="margin-right-8px">edit</mat-icon>
+            <span>Firmendaten</span>
+          </button>
+        </div>
+        <div class="padding-left-8px">
+          <button mat-raised-button [color]="'primary'"
+                  [routerLink]="'/company-edit-report-overview'">
+            <mat-icon class="margin-right-8px">edit</mat-icon>
+            <span>Umweltkennzahlen</span>
+          </button>
+        </div>
+
+      </div>
+    </mat-card-header>
+    <mat-card-content fxLayout="column">
+      <div class="padding-bottom-8px">
+        <mat-divider></mat-divider>
+      </div>
+      <h3 class="padding-vertical-16px" fxLayoutAlign="center center">
+        <span class="text-width">{{company.info}}
+      </span>
+      </h3>
+
+      <h3>
+        <div fxFlex>
+          <div fxFlex fxLayout="column" fxLayoutAlign="start start" class="padding-horizontal-64px">
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>Geschäftsführer:</span>
+              <span>{{company.ceo}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>EMAS III:</span>
+              <span>{{company.emas3 ? "Ja" : "Nein"}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>ISO 14001:</span>
+              <span>{{company.iso14001 ? "Ja" : "Nein"}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>ISO 45001:</span>
+              <span>{{company.iso45001 ? "Ja" : "Nein"}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>ISO 50001:</span>
+              <span>{{company.iso50001 ? "Ja" : "Nein"}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>ISO 9001:</span>
+              <span>{{company.iso9001 ? "Ja" : "Nein"}}</span>
+            </div>
+          </div>
+          <div class="padding-horizontal-32px">
+            <mat-divider fxFlexFill [vertical]="true"></mat-divider>
+          </div>
+          <div fxFlexFill fxFlex fxLayout="column" fxLayoutAlign="start start"
+               class="padding-horizontal-64px">
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>Branche:</span>
+              <div fxLayout="column" fxLayoutAlign="center end">
+                <span *ngFor="let b of company.sectors">{{b}}</span>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>Anschrift:</span>
+              <div fxLayout="column" fxLayoutAlign="end end">
+                <span *ngFor="let a of company.address?.split(', ')">{{a}}</span>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>Telefonnummer:</span>
+              <span>{{company.phonenumber}}</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>E-Mail:</span>
+              <span><a [href]="'mailto:'+company.contact">{{company.contact}}</a></span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>Homepage:</span>
+              <span><a href="https://{{company.homepage}}">{{company.homepage}}</a></span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between start" class="full-width padding-vertical-4px">
+              <span>Firmensitz:</span>
+              <span>{{company.headquarters}}</span>
+            </div>
+          </div>
+        </div>
+      </h3>
+    </mat-card-content>
+  </mat-card>
+  <div class="padding-top-16px">
+    <app-display-chart [reports]="reports$|async"></app-display-chart>
+    <app-display-report [reports]="reports$|async" [showCompanyInformation]="false"></app-display-report>
+  </div>
+</div>

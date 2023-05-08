@@ -1,0 +1,63 @@
+version: '3.7'
+
+services:
+  server:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: BackendServer
+    container_name: server
+    depends_on:
+      - db
+      - keycloak
+    ports:
+      - 9091:4576
+    env_file:
+      - server.env
+    restart: unless-stopped
+    networks:
+      - backend-net
+
+  db:
+    image: 'postgres:13.2-alpine'
+    container_name: db
+    ports:
+      - 9092:5432
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    env_file:
+      - db.env
+    restart: unless-stopped
+    networks:
+      - backend-net
+
+  keycloak:
+    image: 'jboss/keycloak:latest'
+    build:
+      context: "./BackendServer/keycloak/"
+    container_name: keycloak
+    ports:
+      - 9093:8080
+    depends_on:
+      - db
+    env_file:
+      - keycloak.env
+    restart: unless-stopped
+    networks:
+      - backend-net
+
+  client:
+    build:
+      context: webapp
+    image: 'client:1.0'
+    container_name: client
+    depends_on:
+      - server
+    ports:
+      - 9094:80
+    restart: unless-stopped
+    networks:
+      - backend-net
+
+networks:
+  backend-net:
+    driver: bridge

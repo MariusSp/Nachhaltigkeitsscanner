@@ -1,0 +1,109 @@
+<div fxLayout="column" fxLayoutAlign="start start" class="full-size background">
+  <div class="padding-8px" *ngIf="dataSource">
+    <button
+      *ngIf="dataSource?.filter === '[]' || dataSource?.filter == ''"
+      mat-stroked-button
+      color="primary"
+      (click)="applyFilter()"
+    >
+      <mat-icon class="padding-right-8px">filter_list</mat-icon>
+      <span>Filter</span>
+    </button>
+    <button
+      *ngIf="dataSource?.filter !== '[]' && dataSource?.filter != ''"
+      mat-flat-button
+      color="primary"
+      (click)="removeFilter()"
+    >
+      <mat-icon class="padding-right-8px">filter_list
+      </mat-icon
+      >
+      <span>{{dataSource.filter | filterToString}}</span>
+      <mat-icon class="padding-left-8px">clear</mat-icon>
+    </button>
+    <span class="padding-8px" *ngIf="dataSource?.filter !== '[]' && dataSource?.filter != ''">
+
+    </span>
+  </div>
+
+  <div class="padding-4px center full-width" fxFlex fxLayout="column">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      [matSortActive]="showCompanyInformation?undefined:'year'"
+      [matSortDirection]="showCompanyInformation?undefined:'desc'"
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="drop($event)"
+    >
+
+      <ng-container matColumnDef="account-icon">
+        <ng-container>
+          <th mat-header-cell *matHeaderCellDef>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <div fxLayoutAlign="center center" class="full-size padding-horizontal-8px">
+              <mat-icon *ngIf="row.userId" #tooltip="matTooltip"
+                        matTooltip="Dieses Profil wird vom Unternehmen selbst verwaltet"
+                        [matTooltipPosition]="'above'"
+              >account_circle
+              </mat-icon>
+            </div>
+          </td>
+        </ng-container>
+      </ng-container>
+
+      <!-- Columns -->
+      <ng-container *ngFor="let column of columns">
+        <ng-container *ngIf="column != 'userId'" matColumnDef="{{ column }}">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+            {{ (column|translateColumn).toUpperCase() }}
+          </th>
+          <ng-container>
+            <td mat-cell *matCellDef="let row" >
+              <div class="padding-8px" [style]="'white-space:nowrap'" fxLayoutAlign="start center">
+                <div *ngIf="column === 'name'" class="user-indicator primary" [style]="{width:'30px', height:'30px', display: 'inline-block'}">
+                  <app-company-icon  [companyName]="row[column]"
+                                    [size]="25"></app-company-icon>
+                </div>
+                <span style="display: inline-block">
+                {{row[column] === -1 || row[column] == null ? "k.A." : row[column]}}</span></div>
+            </td>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns()"
+          [routerLink]="showCompanyInformation ? ['/profile/'+row.companyID]:[]"
+          [ngClass]="'table-row'"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td
+          class="mat-cell"
+          colspan="4"
+          *ngIf="this.dataSource.data.length > 0">
+          <span class="full-size" fxLayoutAlign="center center">
+            No data matching the filter ""
+          </span>
+        </td>
+        <td
+          class="mat-cell"
+          colspan="4"
+          *ngIf="this.dataSource.data.length == 0">
+          <span class="full-size warn" fxLayoutAlign="center center">
+            No Data to Display
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div fxFlex></div>
+    <mat-paginator
+      #paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      [pageSize]="15"
+    ></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="persistence-unit">
+        <class>de.uniwue.nachhaltigkeitsscanner.entities.Company</class>
+        <class>de.uniwue.nachhaltigkeitsscanner.entities.Report</class>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+
+            <!--additional variables are inserted in class HibernateUtils-->
+            <property name="javax.persistence.schema-generation.database.action" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>

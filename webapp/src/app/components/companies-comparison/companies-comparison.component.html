@@ -1,0 +1,56 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="background padding-top-16px">
+  <h3>Unternehmensvergleich</h3>
+  <div class="field-container">
+    <form [formGroup]="form">
+      <mat-form-field appearance="fill">
+        <mat-label>Firma 1</mat-label>
+        <mat-select formControlName="company1">
+          <mat-option *ngFor="let company of companies$|async" [value]="company">
+            {{company.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Firma 2</mat-label>
+        <mat-select formControlName="company2">
+          <mat-option *ngFor="let company of companies$|async" [value]="company">
+            {{company.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Jahr</mat-label>
+        <mat-select formControlName="year">
+          <mat-option *ngFor="let year of years$|async" [value]="year">
+            {{year}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="height-400px">
+    <ngx-charts-polar-chart class="three-quarter-width"
+      *ngIf="data2"
+      [results]="data2"
+      [view]="[1000,700]"
+      [legend]="true"
+      [legendTitle]="'Vergleich'"
+      [xAxisLabel]="'2021'"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      [labelTrim]="false"
+      [roundDomains]="true"
+      [tooltipDisabled]="true"
+      [showGridLines]="true">
+    </ngx-charts-polar-chart>
+  </div>
+  <!--  todo charts add all report data for selected year and companyies -->
+  <!--  <div class="padding-4px center full-width" fxFlex fxLayout="column">-->
+  <!--    &lt;!&ndash; todo show something when no data is here&ndash;&gt;-->
+  <!--    <div fxFlex></div>-->
+  <!--  </div>-->
+</div>
+<app-display-report
+  *ngIf="data2" [reports]="reports$|async" [showCompanyInformation]="true"></app-display-report>
