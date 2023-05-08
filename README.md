@@ -1,4 +1,4 @@
-#Nachhaltigkeitsscanner
+# Nachhaltigkeitsscanner
 
 This project contains an Web Plattform build with Spring Boot, Angular, SQL and Keycloak Authentication and was created as part of a university project.
 
